@@ -1,69 +1,64 @@
 package api.endpoints;
 
+import static io.restassured.RestAssured.given;
+
+import api.payload.User;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import static io.restassured.RestAssured.given;
-import api.payload.User;
 
 
-//create to perform CRUD requests to the user Api
+//UserEndPints.java
+// Created for perform Create, Read, Update, Delete requests t the user API.
+
 public class UserEndPoints {
-	
-	public static Response creteUser(User payload)// payload will create on User pojo class
-	{
-		//the implement method
-		Response res= given()
-		 .contentType(ContentType.JSON)
-		 .accept(ContentType.JSON)
-		 .body(payload)
-		
-		.when()
-		 .post(Routes.post_url); // we allow to enter thorough class because its defined as static
-		
-		// .then(): we dont have because validation will be on the return
-		// responde
-	
-		return res;
-	}
 
-	
-	public static Response readUser(String userName)
-	{
-		//the implement method
-		Response res= given()
-         .pathParam("username",userName)
+		public static Response createUser(User payload)
+		{
+			Response response=given()
+				.contentType(ContentType.JSON)
+				.accept(ContentType.JSON)
+				.body(payload)
+			.when()
+				.post(Routes.post_url);
+				
+			return response;
+		}
 		
-		.when()
-		 .get(Routes.get_url); // we allow to enter thorough class because its defined as static
 		
-		return res;
-	}
-	
-	
-	public static Response updateUser(String userName, User payload)
-	{
-		//the implement method
-		Response res= given()
-		 .contentType(ContentType.JSON)
-		 .accept(ContentType.JSON)
-		 .body(payload)
-		 .pathParam("username",userName)
+		public static Response readUser(String userName)
+		{
+			Response response=given()
+							.pathParam("username",userName)
+			.when()
+				.get(Routes.get_url);
+				
+			return response;
+		}
 		
-		.when()
-		 .put(Routes.update_url); 
-		return res;
-	}
-	
-	
-	public static Response deleteUser(String userName)
-	{
-		//the implement method
-		Response res= given()
-         .pathParam("username",userName)
 		
-		.when()
-		 .delete(Routes.delete_url);
+		public static Response updateUser(String userName, User payload)
+		{
+			Response response=given()
+				.contentType(ContentType.JSON)
+				.accept(ContentType.JSON)
+				.pathParam("username", userName)
+				.body(payload)
+			.when()
+				.put(Routes.update_url);
+				
+			return response;
+		}
 		
-		return res;
-	}
+		
+		public static Response deleteUser(String userName)
+		{
+			Response response=given()
+							.pathParam("username",userName)
+			.when()
+				.delete(Routes.delete_url);
+				
+			return response;
+		}	
+				
+		
 }
